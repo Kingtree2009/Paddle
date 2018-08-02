@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # This script should be used only in Travis CI. It will only work after ./paddle_docker_build.sh
 
-TRAVIS_BRANCH=develop
+echo "TRAVIS_BRANCH: $TRAVIS_BRANCH"
 
 if [ "$TRAVIS_BRANCH" == "develop_doc" ]; then
     PPO_SCRIPT_BRANCH=develop
