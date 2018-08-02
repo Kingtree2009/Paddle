@@ -5,6 +5,7 @@ cache:
     - $HOME/.cache/pip
     - $TRAVIS_BUILD_DIR/build/third_party
     - $TRAVIS_BUILD_DIR/build_android/third_party
+    - $HOME/build
 sudo: required
 dist: trusty
 services:
@@ -28,6 +29,8 @@ script:
   - |
     if [[ "$JOB" != "doc" ]]; then exit 0; fi;
     # For document only
+    echo $HOME
+    echo $$TRAVIS_BUILD_DIR
     # if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then exit 0; fi;
     paddle/scripts/paddle_deploy_doc.sh
 notifications:
