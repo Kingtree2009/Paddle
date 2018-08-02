@@ -29,8 +29,8 @@ script:
   - |
     if [[ "$JOB" != "doc" ]]; then exit 0; fi;
     # For document only
-    echo $HOME
-    echo $$TRAVIS_BUILD_DIR
+    echo "HOME: $HOME"
+    echo "TRAVIS_BUILD_DIR: $TRAVIS_BUILD_DIR"
     # if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then exit 0; fi;
     paddle/scripts/paddle_deploy_doc.sh
     
