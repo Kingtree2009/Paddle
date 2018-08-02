@@ -4,7 +4,7 @@
 echo "TRAVIS_BRANCH: $TRAVIS_BRANCH"
 
 if [ "$TRAVIS_BRANCH" == "develop_doc" ]; then
-    PPO_SCRIPT_BRANCH=develop
+    PPO_SCRIPT_BRANCH=develop_doc
 elif [[ "$TRAVIS_BRANCH" == "develop"  ||  "$TRAVIS_BRANCH" =~ ^v|release/[[:digit:]]+\.[[:digit:]]+(\.[[:digit:]]+)?(-\S*)?$ ]]; then
     PPO_SCRIPT_BRANCH=master
 else
