@@ -449,7 +449,7 @@ EOF
         -DWITH_GPU=OFF \
         -DWITH_MKL=OFF
 
-    make -j `nproc` paddle_docs paddle_apis
+    make -j `nproc` paddle_apis
 
     # Fetch the paddlepaddle.org deploy_docs.sh from the appopriate branch
     export DEPLOY_DOCS_SH=https://raw.githubusercontent.com/PaddlePaddle/PaddlePaddle.org/$PPO_SCRIPT_BRANCH/scripts/deploy/deploy_docs.sh
