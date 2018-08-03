@@ -33,6 +33,7 @@ function print_usage() {
     ${BLUE}single_test${NONE}: run a single unit test
     ${BLUE}bind_test${NONE}: parallel tests bind to different GPU
     ${BLUE}doc${NONE}: generate paddle documents
+    ${BLUE}deploy_doc${NONE}: generate paddle documents
     ${BLUE}html${NONE}: convert C++ source code into HTML
     ${BLUE}dockerfile${NONE}: generate paddle release dockerfile
     ${BLUE}capi${NONE}: generate paddle CAPI package
@@ -421,6 +422,45 @@ EOF
     linkchecker doc/v2/api/en/html/index.html
 }
 
+function deploy_doc() {
+    echo "==================="
+    echo "TRAVIS_BRANCH: $TRAVIS_BRANCH"
+
+    if [ "$TRAVIS_BRANCH" == "develop_doc" ]; then
+        PPO_SCRIPT_BRANCH=develop
+    elif [[ "$TRAVIS_BRANCH" == "develop"  ||  "$TRAVIS_BRANCH" =~ ^v|release/[[:digit:]]+\.[[:digit:]]+(\.[[:digit:]]+)?(-\S*)?$ ]]; then
+        PPO_SCRIPT_BRANCH=master
+    else
+        # Early exit, this branch doesn't require documentation build
+        exit 0;
+    fi
+
+    mkdir -p ${PADDLE_ROOT}/build
+    cd ${PADDLE_ROOT}/build
+    cat <<EOF
+    ========================================
+    Building documentation ...
+    In /paddle/build
+    ========================================
+EOF
+    cmake .. \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DWITH_DOC=ON \
+        -DWITH_GPU=OFF \
+        -DWITH_MKL=OFF
+
+    make -j `nproc` paddle_docs paddle_apis
+
+    # Fetch the paddlepaddle.org deploy_docs.sh from the appopriate branch
+    export DEPLOY_DOCS_SH=https://raw.githubusercontent.com/PaddlePaddle/PaddlePaddle.org/$PPO_SCRIPT_BRANCH/scripts/deploy/deploy_docs.sh
+    export DOCS_DIR=`pwd`
+    export PYTHONPATH=$PYTHONPATH:${PADDLE_ROOT}/build/python
+
+    cd ..
+    curl $DEPLOY_DOCS_SH | bash -s $CONTENT_DEC_PASSWD $TRAVIS_BRANCH $DOCS_DIR $DOCS_DIR/build/doc/
+    cd -
+}
+
 function gen_html() {
     cat <<EOF
     ========================================
@@ -577,6 +617,9 @@ function main() {
         ;;
       doc)
         gen_docs
+        ;;
+      deploy_doc)
+        deploy_doc
         ;;
       html)
         gen_html
