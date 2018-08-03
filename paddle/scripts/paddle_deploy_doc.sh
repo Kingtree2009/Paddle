@@ -17,7 +17,10 @@ echo "Use paddlepaddle.org deploy_docs from: $PPO_SCRIPT_BRANCH branch"
 # Fetch the paddlepaddle.org deploy_docs.sh from the appopriate branch
 export DEPLOY_DOCS_SH=https://raw.githubusercontent.com/PaddlePaddle/PaddlePaddle.org/$PPO_SCRIPT_BRANCH/scripts/deploy/deploy_docs.sh
 export DOCS_DIR=`pwd`
+
+# Pass the python path to capture newly built paddle module
 export PYTHONPATH=$PYTHONPATH:$TRAVIS_BUILD_DIR/build/python
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$TRAVIS_BUILD_DIR/build/python
 
 echo "Set DOCS_DIR to $DOCS_DIR"
 cd ..
