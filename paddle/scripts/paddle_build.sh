@@ -453,11 +453,11 @@ EOF
 
     # Fetch the paddlepaddle.org deploy_docs.sh from the appopriate branch
     export DEPLOY_DOCS_SH=https://raw.githubusercontent.com/PaddlePaddle/PaddlePaddle.org/$PPO_SCRIPT_BRANCH/scripts/deploy/deploy_docs.sh
-    export DOCS_DIR=`pwd`
-    export PYTHONPATH=$PYTHONPATH:${PADDLE_ROOT}/build/python
+    export PYTHONPATH=$PYTHONPATH:${PADDLE_ROOT}/build/python:/paddle/build/python
+    export ENV=production
 
     cd ..
-    curl $DEPLOY_DOCS_SH | bash -s $CONTENT_DEC_PASSWD $TRAVIS_BRANCH $DOCS_DIR $DOCS_DIR/build/doc/
+    curl $DEPLOY_DOCS_SH | bash -s $CONTENT_DEC_PASSWD $TRAVIS_BRANCH ${PADDLE_ROOT}
     cd -
 }
 
