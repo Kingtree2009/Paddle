@@ -14,6 +14,7 @@ os:
   - linux
 env:
   - JOB=deploy_doc
+  - JOB=doc
 
 addons:
   ssh_known_hosts: 13.229.163.131
