@@ -435,22 +435,6 @@ function deploy_doc() {
         exit 0;
     fi
 
-    mkdir -p ${PADDLE_ROOT}/build
-    cd ${PADDLE_ROOT}/build
-    cat <<EOF
-    ========================================
-    Building documentation ...
-    In /paddle/build
-    ========================================
-EOF
-    cmake .. \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DWITH_DOC=ON \
-        -DWITH_GPU=OFF \
-        -DWITH_MKL=OFF
-
-    make -j `nproc` paddle_apis
-
     # Fetch the paddlepaddle.org deploy_docs.sh from the appopriate branch
     export DEPLOY_DOCS_SH=https://raw.githubusercontent.com/PaddlePaddle/PaddlePaddle.org/$PPO_SCRIPT_BRANCH/scripts/deploy/deploy_docs.sh
     export PYTHONPATH=$PYTHONPATH:${PADDLE_ROOT}/build/python:/paddle/build/python
@@ -619,6 +603,7 @@ function main() {
         gen_docs
         ;;
       deploy_doc)
+        gen_docs
         deploy_doc
         ;;
       html)
