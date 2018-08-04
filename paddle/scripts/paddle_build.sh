@@ -604,7 +604,7 @@ function main() {
         ;;
       deploy_doc)
         gen_docs
-        deploy_doc
+#         deploy_doc
         ;;
       html)
         gen_html
